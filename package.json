@@ -1,0 +1,15 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "changed readme",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd ./frontend dev\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

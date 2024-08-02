@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd ./frontend dev\"",
     "predeploy" : "yarn --cwd ./frontend build",
-    "deploy" : "gh-pages --cwd ./frontend -d build"
+    "deploy" : "gh-pages -d frontBuild"
   },
   "keywords": [],
   "author": "",

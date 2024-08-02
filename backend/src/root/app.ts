@@ -1,5 +1,5 @@
 import express from "express";
-import router from "../routes/auth.route";
+import authRoute from "../routes/auth/auth.route";
 
 const app = express();
 
@@ -7,6 +7,6 @@ const app = express();
 app.use(express.json());
 
 // Basic route
-app.use("/auth", router);
+app.use("/auth", authRoute);
 
 export default app;

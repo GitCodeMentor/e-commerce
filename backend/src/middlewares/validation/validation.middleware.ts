@@ -1,13 +1,13 @@
 import { validate } from "class-validator";
-import express from "express";
+import {NextFunction, Request, Response} from "express";
 
 type Constructor<T> = new () => T;
 
 const validationMiddleware = <T extends object>(Schema: Constructor<T>) => {
   return async (
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
+    req: Request<{}, {}, T>,
+    res: Response,
+    next: NextFunction
   ) => {
     const user = new Schema();
     Object.assign(user as object, req.body);
@@ -28,4 +28,4 @@ const validationMiddleware = <T extends object>(Schema: Constructor<T>) => {
   };
 };
 
-export { validationMiddleware };
+export default validationMiddleware;

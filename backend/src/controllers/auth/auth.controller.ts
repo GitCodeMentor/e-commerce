@@ -1,37 +1,29 @@
-import bcrypt from "bcrypt";/* 
+import { hashSync } from "bcrypt";/*
 import jwt from "jsonwebtoken"; */
 import dotenv from "dotenv";
 import { Request, Response } from "express";
+import {SignupSchema} from "../../schema/auth";
+import {authGetUserByEmail, authSignUp} from "../../services/auth";
 // import {importUserToDatabase, readUserFromDatabase} from "../services/auth.service";
 
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
-const signup = async (req: Request, res: Response) => {
+export const signup = async (req: Request<{}, {}, SignupSchema>, res: Response) => {
   const { email, password, username } = req.body;
+  const candidate = await authGetUserByEmail(email);
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const userObject = {
-      email,
-      password: hashedPassword,
-      username,
-    };
-
-    // importUserToDatabase
-
-    const newUser = userObject;
-
-    if (newUser) {
-      res.status(200).send({ message: "You have successfully registered!" });
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send({
-      message: "User with this username or email already exists!",
-    });
-    throw new Error("Something went wrong!");
+  if (candidate) {
+    res.status(400).json({ message: "This mail already exists" });
+  } else {
+    const hashedPassword = hashSync(password, 10);
+    const user = await authSignUp({ email, password: hashedPassword, username });
+    console.log({user})
+    res.status(201).json({
+      message: "Signed up successfully",
+      access_token: user.email
+    })
   }
 };
 
@@ -96,4 +88,3 @@ const signup = async (req: Request, res: Response) => {
   }
 };
  */
-export { /* signin, */ signup };

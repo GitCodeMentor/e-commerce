@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd ./frontend dev\"",
     "predeploy" : "yarn --cwd ./frontend build",
-    "deploy" : "gh-pages frontend -d dist"
+    "deploy" : "gh-pages -d ./frontend/dist"
   },
   "keywords": [],
   "author": "",

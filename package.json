@@ -4,12 +4,15 @@
   "description": "changed readme",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd ./frontend dev\""
+    "dev": "concurrently --kill-others \"yarn --cwd ./backend dev\" \"yarn --cwd ./frontend dev\"",
+    "predeploy" : "yarn --cwd ./frontend build",
+    "deploy" : "gh-pages --cwd ./frontend -d build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "gh-pages": "^6.1.1"
   }
 }

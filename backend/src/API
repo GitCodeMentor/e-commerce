@@ -1,0 +1,43 @@
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
+const app = express();
+app.use(express.json());
+
+
+const JWT_SECRET = 'your_secret_key';
+
+
+const users = [
+  { username: 'user1', password: '$2b$10$7r5/iTk6mX/FOopLeO0xAejTZgnO2Og5bHbgwD17g7a7phRM1eTAO' } // 'password123'
+];
+
+
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  const user = users.find(u => u.username === username);
+  if (!user) {
+    return res.status(401).json({ message: 'Invalid username or password' });
+  }
+
+ 
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(401).json({ message: 'Invalid username or password' });
+  }
+
+  
+  const accessToken = jwt.sign({ username }, JWT_SECRET, { expiresIn: '15m' });
+  const refreshToken = jwt.sign({ username }, JWT_SECRET, { expiresIn: '7d' });
+
+  
+  res.json({ accessToken, refreshToken });
+});
+
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
